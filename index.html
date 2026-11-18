@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cartelito</title>
+  <meta name="description" content="Crea pósters minimalistas de tus películas, series y canciones para subir a Instagram.">
+
+  <!-- Aplica el tema guardado antes de pintar para evitar parpadeo -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('cartelito.tema'); } catch (e) {}
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-bs-theme', t);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@300..700&display=swap" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar navbar-expand-lg sticky-top site-nav" aria-label="Principal">
+    <div class="container-xl">
+      <a class="navbar-brand brand" href="#inicio">
+        <svg class="brand__mark" viewBox="0 0 24 30" aria-hidden="true">
+          <rect x="1.5" y="1.5" width="21" height="27" rx="1.5" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <rect x="5" y="5" width="14" height="11" fill="currentColor"/>
+          <path d="M5 20h10M5 24h6" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        Cartelito
+      </a>
+
+      <div class="d-flex align-items-center gap-2 order-lg-last">
+        <button class="btn icon-btn" id="btn-tema" type="button" aria-label="Cambiar a modo oscuro">
+          <i class="bi bi-moon-stars" aria-hidden="true"></i>
+        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                aria-controls="menu" aria-expanded="false" aria-label="Abrir menú">
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav mx-lg-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav="inicio" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="pelis" href="#pelis"><span class="dot dot--peli"></span>Pelis</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="series" href="#series"><span class="dot dot--serie"></span>Series</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="musica" href="#musica"><span class="dot dot--musica"></span>Música</a></li>
+          <li class="nav-item">
+            <a class="nav-link" data-nav="coleccion" href="#coleccion">Mi colección <span class="count-badge" id="nav-count">0</span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="contenido">
+
+    <!-- ============ INICIO ============ -->
+    <section data-view="inicio">
+      <div class="container-xl">
+
+        <header class="hero">
+          <div class="hero__copy">
+            <p class="eyebrow">Pósters minimalistas para Instagram</p>
+            <h1 class="display-title">Tus pelis, series y canciones, en pósters para compartir.</h1>
+            <p class="lead-text">Llena la ficha, mira cómo se arma el póster en vivo y descárgalo en PNG listo para subir. Junta varios en una lámina con título, como las de tus cuentas favoritas.</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-ink btn-lg" href="#pelis"><i class="bi bi-plus-lg" aria-hidden="true"></i> Crear una tarjeta</a>
+              <a class="btn btn-ghost btn-lg" href="#coleccion">Ver mi colección</a>
+            </div>
+          </div>
+          <div class="hero__stack" id="hero-stack" aria-label="Tres tarjetas de ejemplo"></div>
+        </header>
+
+        <!-- Tutorial -->
+        <section class="tutorial" aria-labelledby="tuto-title">
+          <div class="section-head">
+            <p class="eyebrow">Tutorial</p>
+            <h2 id="tuto-title" class="h-section">Cómo armar tu primera tarjeta</h2>
+          </div>
+          <ol class="steps">
+            <li class="step">
+              <span class="step__n">1</span>
+              <h3>Elige qué quieres guardar</h3>
+              <p>Entra a <a href="#pelis">Pelis</a>, <a href="#series">Series</a> o <a href="#musica">Música</a>. Las pelis llevan dirección y reparto, las series temporadas y capítulos, y las canciones un reproductor.</p>
+            </li>
+            <li class="step">
+              <span class="step__n">2</span>
+              <h3>Llena la ficha</h3>
+              <p>Los campos con <span class="req-mark">*</span> son obligatorios. Pega la URL de una foto (por ejemplo, de TMDB o Pinterest), elige el papel y si la quieres en blanco y negro. ¿Sin ideas? Usa <em>Rellenar con ejemplo</em>.</p>
+            </li>
+            <li class="step">
+              <span class="step__n">3</span>
+              <h3>Descarga y comparte</h3>
+              <p>Cada tarjeta se descarga en 1080 × 1350 px, el formato vertical de Instagram. En <a href="#coleccion">Mi colección</a> puedes juntar hasta 9 en una lámina con título.</p>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Carrusel -->
+        <section class="showcase" aria-labelledby="ejemplos-title">
+          <div class="section-head">
+            <p class="eyebrow">Tarjetas de ejemplo</p>
+            <h2 id="ejemplos-title" class="h-section">Así se ven terminadas</h2>
+          </div>
+
+          <div id="carrusel" class="carousel slide showcase__carousel">
+            <div class="carousel-indicators" id="carrusel-indicadores"></div>
+            <div class="carousel-inner" id="carrusel-slides"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">
+              <span class="ctrl-chip"><i class="bi bi-arrow-left" aria-hidden="true"></i></span>
+              <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carrusel" data-bs-slide="next">
+              <span class="ctrl-chip"><i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+              <span class="visually-hidden">Siguiente</span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ PELIS ============ -->
+    <section data-view="pelis" class="studio-view" hidden>
+      <div class="container-xl">
+        <div class="section-head section-head--studio">
+          <p class="eyebrow">Nueva tarjeta · Película</p>
+          <h1 class="h-studio">Pelis</h1>
+          <p class="muted-text">Póster 4:5 con foto, título, año y ficha técnica.</p>
+        </div>
+
+        <div class="row g-4 g-xl-5">
+          <div class="col-lg-7">
+            <form class="form-card needs-validation" data-type="peli" id="form-peli" novalidate>
+              <input type="hidden" name="id">
+              <div class="edit-banner" hidden>
+                <span><i class="bi bi-pencil" aria-hidden="true"></i> Editando <strong class="js-edit-name"></strong></span>
+                <button type="button" class="btn btn-sm btn-ghost js-cancel">Cancelar edición</button>
+              </div>
+
+              <fieldset>
+                <legend>Ficha</legend>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label" for="p-titulo">Título <span class="req-mark">*</span></label>
+                    <input class="form-control" id="p-titulo" name="titulo" required maxlength="60" placeholder="Ej. El laberinto del fauno">
+                    <div class="invalid-feedback">Escribe el título de la película.</div>
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="form-label" for="p-anio">Año de estreno <span class="req-mark">*</span></label>
+                    <input class="form-control" id="p-anio" name="anio" type="number" inputmode="numeric" min="1888" max="2030" required placeholder="2006">
+                    <div class="invalid-feedback">Un año entre 1888 y 2030.</div>
+                  </div>
+                  <div class="col-sm-8">
+                    <label class="form-label" for="p-director">Director <span class="req-mark">*</span></label>
+                    <input class="form-control" id="p-director" name="director" required maxlength="60" placeholder="Guillermo del Toro">
+                    <div class="invalid-feedback">¿Quién la dirigió?</div>
+                  </div>
+                  <div class="col-sm-7">
+                    <label class="form-label" for="p-empresa">Empresa / estudio</label>
+                    <input class="form-control" id="p-empresa" name="empresa" maxlength="60" placeholder="Tequila Gang">
+                  </div>
+                  <div class="col-sm-5">
+                    <label class="form-label" for="p-genero">Género</label>
+                    <input class="form-control" id="p-genero" name="genero" list="generos-cine" maxlength="30" placeholder="Fantasía">
+                  </div>
+                  <div class="col-sm-5">
+                    <label class="form-label" for="p-duracion">Duración <span class="req-mark">*</span></label>
+                    <div class="input-group has-validation">
+                      <input class="form-control" id="p-duracion" name="duracion" type="number" inputmode="numeric" min="1" max="999" required placeholder="118">
+                      <span class="input-group-text">min</span>
+                      <div class="invalid-feedback">Duración en minutos.</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-7">
+                    <label class="form-label" for="p-reparto">Reparto</label>
+                    <input class="form-control" id="p-reparto" name="reparto" maxlength="120" placeholder="Ivana Baquero, Sergi López">
+                    <div class="form-text">Separa los nombres con comas.</div>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="p-imagen">Imagen (URL)</label>
+                    <input class="form-control js-img-url" id="p-imagen" name="imagen" type="url" placeholder="https://…/escena.jpg">
+                    <div class="form-text js-img-status">Opcional. Funciona mejor una foto horizontal.</div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Estilo</legend>
+                <div class="style-row">
+                  <div>
+                    <span class="form-label d-block" id="p-nota-l">Tu nota</span>
+                    <div class="stars" role="radiogroup" aria-labelledby="p-nota-l">
+                      <input type="radio" id="p-n5" name="nota" value="5"><label for="p-n5" title="5 de 5">★</label>
+                      <input type="radio" id="p-n4" name="nota" value="4"><label for="p-n4" title="4 de 5">★</label>
+                      <input type="radio" id="p-n3" name="nota" value="3"><label for="p-n3" title="3 de 5">★</label>
+                      <input type="radio" id="p-n2" name="nota" value="2"><label for="p-n2" title="2 de 5">★</label>
+                      <input type="radio" id="p-n1" name="nota" value="1"><label for="p-n1" title="1 de 5">★</label>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="form-label d-block" id="p-papel-l">Papel</span>
+                    <div class="swatches js-swatches" role="radiogroup" aria-labelledby="p-papel-l" data-prefix="p"></div>
+                  </div>
+                  <div class="align-self-end pb-1">
+                    <label class="check-bw" for="p-bn">
+                      <input class="form-check-input" type="checkbox" id="p-bn" name="bn" value="1"> Foto en blanco y negro
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="form-actions">
+                <button class="btn btn-sec btn-lg" type="submit"><i class="bi bi-bookmark-plus" aria-hidden="true"></i> <span class="js-submit-label">Guardar en colección</span></button>
+                <button class="btn btn-ghost js-sample" type="button"><i class="bi bi-magic" aria-hidden="true"></i> Rellenar con ejemplo</button>
+                <button class="btn btn-link link-muted js-clear" type="button">Limpiar</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="lightbox">
+              <span class="lightbox__label">Vista previa en vivo</span>
+              <div class="js-preview" id="preview-peli"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERIES ============ -->
+    <section data-view="series" class="studio-view" hidden>
+      <div class="container-xl">
+        <div class="section-head section-head--studio">
+          <p class="eyebrow">Nueva tarjeta · Serie</p>
+          <h1 class="h-studio">Series</h1>
+          <p class="muted-text">Póster con temporadas, capítulos, plataforma y reparto.</p>
+        </div>
+
+        <div class="row g-4 g-xl-5">
+          <div class="col-lg-7">
+            <form class="form-card needs-validation" data-type="serie" id="form-serie" novalidate>
+              <input type="hidden" name="id">
+              <div class="edit-banner" hidden>
+                <span><i class="bi bi-pencil" aria-hidden="true"></i> Editando <strong class="js-edit-name"></strong></span>
+                <button type="button" class="btn btn-sm btn-ghost js-cancel">Cancelar edición</button>
+              </div>
+
+              <fieldset>
+                <legend>Ficha</legend>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label" for="s-titulo">Título <span class="req-mark">*</span></label>
+                    <input class="form-control" id="s-titulo" name="titulo" required maxlength="60" placeholder="Ej. Dark">
+                    <div class="invalid-feedback">Escribe el título de la serie.</div>
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="form-label" for="s-anio">Año de estreno <span class="req-mark">*</span></label>
+                    <input class="form-control" id="s-anio" name="anio" type="number" inputmode="numeric" min="1928" max="2030" required placeholder="2017">
+                    <div class="invalid-feedback">Un año entre 1928 y 2030.</div>
+                  </div>
+                  <div class="col-sm-8">
+                    <label class="form-label" for="s-creador">Creador / showrunner</label>
+                    <input class="form-control" id="s-creador" name="creador" maxlength="60" placeholder="Baran bo Odar y Jantje Friese">
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label" for="s-plataforma">Plataforma / cadena</label>
+                    <input class="form-control" id="s-plataforma" name="plataforma" list="plataformas" maxlength="30" placeholder="Netflix">
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label" for="s-genero">Género</label>
+                    <input class="form-control" id="s-genero" name="genero" list="generos-cine" maxlength="30" placeholder="Ciencia ficción">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="s-reparto">Reparto</label>
+                    <input class="form-control" id="s-reparto" name="reparto" maxlength="120" placeholder="Louis Hofmann, Lisa Vicari, Oliver Masucci">
+                    <div class="form-text">Separa los nombres con comas.</div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Episodios</legend>
+                <div class="row g-3">
+                  <div class="col-6 col-sm-3">
+                    <label class="form-label" for="s-temporadas">Temporadas <span class="req-mark">*</span></label>
+                    <input class="form-control" id="s-temporadas" name="temporadas" type="number" inputmode="numeric" min="1" max="60" required placeholder="3">
+                    <div class="invalid-feedback">Entre 1 y 60.</div>
+                  </div>
+                  <div class="col-6 col-sm-3">
+                    <label class="form-label" for="s-capitulos">Capítulos <span class="req-mark">*</span></label>
+                    <input class="form-control" id="s-capitulos" name="capitulos" type="number" inputmode="numeric" min="1" max="5000" required placeholder="26">
+                    <div class="invalid-feedback">Total de capítulos.</div>
+                  </div>
+                  <div class="col-6 col-sm-3">
+                    <label class="form-label" for="s-duracion">Min. por capítulo</label>
+                    <input class="form-control" id="s-duracion" name="duracion" type="number" inputmode="numeric" min="1" max="300" placeholder="60">
+                  </div>
+                  <div class="col-6 col-sm-3">
+                    <label class="form-label" for="s-estado">Estado</label>
+                    <select class="form-select" id="s-estado" name="estado">
+                      <option value="Finalizada">Finalizada</option>
+                      <option value="En emisión">En emisión</option>
+                      <option value="Cancelada">Cancelada</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="s-imagen">Imagen (URL)</label>
+                    <input class="form-control js-img-url" id="s-imagen" name="imagen" type="url" placeholder="https://…/escena.jpg">
+                    <div class="form-text js-img-status">Opcional. Funciona mejor una foto horizontal.</div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Estilo</legend>
+                <div class="style-row">
+                  <div>
+                    <span class="form-label d-block" id="s-nota-l">Tu nota</span>
+                    <div class="stars" role="radiogroup" aria-labelledby="s-nota-l">
+                      <input type="radio" id="s-n5" name="nota" value="5"><label for="s-n5" title="5 de 5">★</label>
+                      <input type="radio" id="s-n4" name="nota" value="4"><label for="s-n4" title="4 de 5">★</label>
+                      <input type="radio" id="s-n3" name="nota" value="3"><label for="s-n3" title="3 de 5">★</label>
+                      <input type="radio" id="s-n2" name="nota" value="2"><label for="s-n2" title="2 de 5">★</label>
+                      <input type="radio" id="s-n1" name="nota" value="1"><label for="s-n1" title="1 de 5">★</label>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="form-label d-block" id="s-papel-l">Papel</span>
+                    <div class="swatches js-swatches" role="radiogroup" aria-labelledby="s-papel-l" data-prefix="s"></div>
+                  </div>
+                  <div class="align-self-end pb-1">
+                    <label class="check-bw" for="s-bn">
+                      <input class="form-check-input" type="checkbox" id="s-bn" name="bn" value="1"> Foto en blanco y negro
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="form-actions">
+                <button class="btn btn-sec btn-lg" type="submit"><i class="bi bi-bookmark-plus" aria-hidden="true"></i> <span class="js-submit-label">Guardar en colección</span></button>
+                <button class="btn btn-ghost js-sample" type="button"><i class="bi bi-magic" aria-hidden="true"></i> Rellenar con ejemplo</button>
+                <button class="btn btn-link link-muted js-clear" type="button">Limpiar</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="lightbox">
+              <span class="lightbox__label">Vista previa en vivo</span>
+              <div class="js-preview" id="preview-serie"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MÚSICA ============ -->
+    <section data-view="musica" class="studio-view" hidden>
+      <div class="container-xl">
+        <div class="section-head section-head--studio">
+          <p class="eyebrow">Nueva tarjeta · Canción</p>
+          <h1 class="h-studio">Música</h1>
+          <p class="muted-text">Portada cuadrada con barra de tiempo y controles de reproductor.</p>
+        </div>
+
+        <div class="row g-4 g-xl-5">
+          <div class="col-lg-7">
+            <form class="form-card needs-validation" data-type="musica" id="form-musica" novalidate>
+              <input type="hidden" name="id">
+              <div class="edit-banner" hidden>
+                <span><i class="bi bi-pencil" aria-hidden="true"></i> Editando <strong class="js-edit-name"></strong></span>
+                <button type="button" class="btn btn-sm btn-ghost js-cancel">Cancelar edición</button>
+              </div>
+
+              <fieldset>
+                <legend>Ficha</legend>
+                <div class="row g-3">
+                  <div class="col-sm-7">
+                    <label class="form-label" for="m-titulo">Título <span class="req-mark">*</span></label>
+                    <input class="form-control" id="m-titulo" name="titulo" required maxlength="60" placeholder="Ej. Bohemian Rhapsody">
+                    <div class="invalid-feedback">Escribe el nombre de la canción.</div>
+                  </div>
+                  <div class="col-sm-5">
+                    <label class="form-label" for="m-autor">Autor <span class="req-mark">*</span></label>
+                    <input class="form-control" id="m-autor" name="autor" required maxlength="60" placeholder="Queen">
+                    <div class="invalid-feedback">¿Quién la interpreta?</div>
+                  </div>
+                  <div class="col-sm-7">
+                    <label class="form-label" for="m-album">Álbum</label>
+                    <input class="form-control" id="m-album" name="album" maxlength="60" placeholder="A Night at the Opera">
+                  </div>
+                  <div class="col-6 col-sm-2">
+                    <label class="form-label" for="m-anio">Año <span class="req-mark">*</span></label>
+                    <input class="form-control" id="m-anio" name="anio" type="number" inputmode="numeric" min="1860" max="2030" required placeholder="1975">
+                    <div class="invalid-feedback">Año válido.</div>
+                  </div>
+                  <div class="col-6 col-sm-3">
+                    <label class="form-label" for="m-duracion">Duración <span class="req-mark">*</span></label>
+                    <input class="form-control mono-input" id="m-duracion" name="duracion" required pattern="^\d{1,2}:[0-5]\d$" placeholder="5:55">
+                    <div class="invalid-feedback">Formato m:ss, ej. 3:42.</div>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="m-imagen">Imagen (URL)</label>
+                    <input class="form-control js-img-url" id="m-imagen" name="imagen" type="url" placeholder="https://…/portada.jpg">
+                    <div class="form-text js-img-status">Opcional. Ideal la portada cuadrada del álbum.</div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Estilo</legend>
+                <div class="style-row">
+                  <div>
+                    <span class="form-label d-block" id="m-nota-l">Tu nota</span>
+                    <div class="stars" role="radiogroup" aria-labelledby="m-nota-l">
+                      <input type="radio" id="m-n5" name="nota" value="5"><label for="m-n5" title="5 de 5">★</label>
+                      <input type="radio" id="m-n4" name="nota" value="4"><label for="m-n4" title="4 de 5">★</label>
+                      <input type="radio" id="m-n3" name="nota" value="3"><label for="m-n3" title="3 de 5">★</label>
+                      <input type="radio" id="m-n2" name="nota" value="2"><label for="m-n2" title="2 de 5">★</label>
+                      <input type="radio" id="m-n1" name="nota" value="1"><label for="m-n1" title="1 de 5">★</label>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="form-label d-block" id="m-papel-l">Papel</span>
+                    <div class="swatches js-swatches" role="radiogroup" aria-labelledby="m-papel-l" data-prefix="m"></div>
+                  </div>
+                  <div class="align-self-end pb-1">
+                    <label class="check-bw" for="m-bn">
+                      <input class="form-check-input" type="checkbox" id="m-bn" name="bn" value="1"> Foto en blanco y negro
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="form-actions">
+                <button class="btn btn-sec btn-lg" type="submit"><i class="bi bi-bookmark-plus" aria-hidden="true"></i> <span class="js-submit-label">Guardar en colección</span></button>
+                <button class="btn btn-ghost js-sample" type="button"><i class="bi bi-magic" aria-hidden="true"></i> Rellenar con ejemplo</button>
+                <button class="btn btn-link link-muted js-clear" type="button">Limpiar</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="lightbox">
+              <span class="lightbox__label">Vista previa en vivo</span>
+              <div class="js-preview" id="preview-musica"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COLECCIÓN ============ -->
+    <section data-view="coleccion" hidden>
+      <div class="container-xl">
+        <div class="section-head section-head--studio">
+          <p class="eyebrow">Guardado en este navegador</p>
+          <h1 class="h-studio">Mi colección</h1>
+          <p class="muted-text" id="stats-line">—</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="toolbar__search">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <label class="visually-hidden" for="buscar">Buscar en la colección</label>
+            <input class="form-control" id="buscar" type="search" placeholder="Buscar por título, autor, reparto…">
+          </div>
+
+          <div class="filter-pills" role="group" aria-label="Filtrar por tipo">
+            <input type="radio" class="btn-check" name="filtro" id="f-todo" value="todo" checked>
+            <label class="pill" for="f-todo">Todo</label>
+            <input type="radio" class="btn-check" name="filtro" id="f-peli" value="peli">
+            <label class="pill" for="f-peli"><span class="dot dot--peli"></span>Pelis</label>
+            <input type="radio" class="btn-check" name="filtro" id="f-serie" value="serie">
+            <label class="pill" for="f-serie"><span class="dot dot--serie"></span>Series</label>
+            <input type="radio" class="btn-check" name="filtro" id="f-musica" value="musica">
+            <label class="pill" for="f-musica"><span class="dot dot--musica"></span>Música</label>
+            <input type="radio" class="btn-check" name="filtro" id="f-fav" value="fav">
+            <label class="pill" for="f-fav"><i class="bi bi-heart-fill" aria-hidden="true"></i> Favoritas</label>
+          </div>
+
+          <div class="toolbar__end">
+            <label class="visually-hidden" for="orden">Ordenar</label>
+            <select class="form-select form-select-sm" id="orden">
+              <option value="recientes">Más recientes</option>
+              <option value="titulo">Título A–Z</option>
+              <option value="anio-desc">Año: nuevo a viejo</option>
+              <option value="anio-asc">Año: viejo a nuevo</option>
+              <option value="nota">Mejor nota</option>
+            </select>
+            <button class="btn btn-ink btn-sm" type="button" id="btn-lamina"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i> Crear lámina</button>
+            <div class="dropdown">
+              <button class="btn btn-ghost btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-box-arrow-up" aria-hidden="true"></i> Datos
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><button class="dropdown-item" type="button" id="btn-exportar"><i class="bi bi-download" aria-hidden="true"></i> Exportar JSON</button></li>
+                <li><label class="dropdown-item mb-0" for="importar" role="button"><i class="bi bi-upload" aria-hidden="true"></i> Importar JSON</label></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item" type="button" id="btn-ejemplos"><i class="bi bi-stars" aria-hidden="true"></i> Agregar tarjetas de ejemplo</button></li>
+              </ul>
+              <input type="file" id="importar" accept="application/json,.json" hidden>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-grid" id="grid" aria-live="polite"></div>
+
+        <div class="empty-state" id="empty" hidden>
+          <svg viewBox="0 0 120 80" aria-hidden="true" class="empty-state__art">
+            <rect x="14" y="10" width="48" height="60" rx="2" transform="rotate(-8 38 40)" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+            <rect x="58" y="8" width="48" height="60" rx="2" transform="rotate(6 82 38)" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <h2 class="h5" id="empty-title">Aún no hay tarjetas aquí</h2>
+          <p class="muted-text" id="empty-text">Crea una en Pelis, Series o Música y aparecerá aquí.</p>
+          <a class="btn btn-ink" href="#pelis">Crear una tarjeta</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Barra flotante de la lámina -->
+  <div class="lamina-bar" id="lamina-bar" hidden>
+    <span id="lamina-bar-text">0 en la lámina</span>
+    <button class="btn btn-paper" type="button" id="lamina-bar-open">Ver lámina</button>
+    <button class="btn btn-clear" type="button" id="lamina-bar-clear" aria-label="Vaciar la lámina"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+  </div>
+
+  <!-- Modal: lámina para Instagram -->
+  <div class="modal fade" id="modal-lamina" tabindex="-1" aria-labelledby="lamina-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content lamina-modal">
+        <div class="modal-header">
+          <h2 class="modal-title h4" id="lamina-title">Lámina para Instagram</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-lg-7">
+              <div class="lamina-frame" id="lamina-frame"><div class="lamina-scale" id="lamina-scale"></div></div>
+            </div>
+            <div class="col-lg-5 d-grid gap-3 align-content-start">
+              <div>
+                <label class="form-label" for="lamina-titulo">Título de la lámina</label>
+                <input class="form-control" id="lamina-titulo" maxlength="40" value="mis pelis de confort">
+              </div>
+              <div>
+                <label class="form-label" for="lamina-usuario">Tu usuario (opcional)</label>
+                <input class="form-control" id="lamina-usuario" maxlength="30" placeholder="@tuusuario">
+              </div>
+              <div>
+                <span class="form-label d-block" id="lamina-formato-l">Formato</span>
+                <div class="seg" role="radiogroup" aria-labelledby="lamina-formato-l">
+                  <input type="radio" class="btn-check" name="lamina-formato" id="lf-post" value="post" checked>
+                  <label class="pill" for="lf-post">Post 4:5</label>
+                  <input type="radio" class="btn-check" name="lamina-formato" id="lf-cuadrado" value="cuadrado">
+                  <label class="pill" for="lf-cuadrado">Cuadrado 1:1</label>
+                  <input type="radio" class="btn-check" name="lamina-formato" id="lf-historia" value="historia">
+                  <label class="pill" for="lf-historia">Historia 9:16</label>
+                </div>
+              </div>
+              <div>
+                <span class="form-label d-block" id="lamina-fondo-l">Fondo</span>
+                <div class="swatches" id="lamina-fondos" role="radiogroup" aria-labelledby="lamina-fondo-l"></div>
+              </div>
+              <div>
+                <span class="form-label d-block">Tarjetas (<span id="lamina-count">0</span> de 9)</span>
+                <ul class="lamina-list" id="lamina-list"></ul>
+              </div>
+              <button class="btn btn-ink btn-lg justify-content-center" type="button" id="lamina-descargar">
+                <i class="bi bi-download" aria-hidden="true"></i> Descargar PNG
+              </button>
+              <p class="form-text m-0" id="lamina-size">1080 × 1350 px</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container-xl">
+      <div class="footer-grid">
+        <div>
+          <a class="brand brand--footer" href="#inicio">Cartelito</a>
+          <p class="muted-text mb-0">Proyecto de Programación Web · IPIC</p>
+        </div>
+        <dl class="credits">
+          <div><dt>Diseño y desarrollo</dt><dd>Brandon Elías</dd></div>
+          <div><dt>Hecho con</dt><dd>HTML, CSS, JavaScript y Bootstrap 5.3</dd></div>
+          <div><dt>Tipografías</dt><dd>Oswald, Bricolage Grotesque, Instrument Sans y JetBrains Mono</dd></div>
+          <div><dt>Íconos y exportación</dt><dd>Bootstrap Icons · html-to-image</dd></div>
+        </dl>
+      </div>
+      <p class="footer-note">© <span id="anio-actual">2026</span> · Los títulos y las imágenes pertenecen a sus respectivos dueños. Tus tarjetas solo se guardan en este navegador.</p>
+    </div>
+  </footer>
+
+  <!-- Sugerencias para los campos de género y plataforma -->
+  <datalist id="generos-cine">
+    <option value="Acción"><option value="Animación"><option value="Ciencia ficción"><option value="Comedia">
+    <option value="Documental"><option value="Drama"><option value="Fantasía"><option value="Musical">
+    <option value="Romance"><option value="Suspenso"><option value="Terror"><option value="Thriller">
+  </datalist>
+  <datalist id="plataformas">
+    <option value="Netflix"><option value="HBO / Max"><option value="Disney+"><option value="Prime Video">
+    <option value="Apple TV+"><option value="AMC"><option value="FX"><option value="Televisa">
+  </datalist>
+
+  <!-- Toast de avisos -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toast" class="toast app-toast" role="status" aria-live="polite" aria-atomic="true">
+      <div class="d-flex align-items-center gap-2">
+        <div class="toast-body" id="toast-text">Listo</div>
+        <button type="button" class="btn btn-sm toast-action" id="toast-action" hidden>Deshacer</button>
+        <button type="button" class="btn-close me-2" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
